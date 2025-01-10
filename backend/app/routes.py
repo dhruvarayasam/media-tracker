@@ -18,9 +18,9 @@ def home():
 
 
 # example endpoints for get and post request
-# @main_routes.route('/api/data', methods=['GET'])
-# def get_data():
-#     return jsonify({"message": "Here is some data!"})
+@main_routes.route('/api/data', methods=['GET'])
+def get_data():
+    return jsonify({"message": "Here is some data!"})
 
 # @main_routes.route('/api/data', methods=['POST'])
 # def post_data():
