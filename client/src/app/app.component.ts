@@ -9,23 +9,23 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   
   baseURL = environment.BASE_URL;
-  // isAuthenticated:boolean = false;
+  isAuthenticated:boolean = false;
 
-  // constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute) {}
 
-  // ngOnInit() {
-  //   // Capture the 'isAuthenticated' query parameter
-  //   this.route.queryParams.subscribe(params => {
-  //     const isAuthenticatedParam = params['isAuthenticated'];
-  //     this.isAuthenticated = isAuthenticatedParam === 'true'; // Convert to boolean
+  ngOnInit() {
+    // Capture the 'isAuthenticated' query parameter
+    this.route.queryParams.subscribe(params => {
+      const isAuthenticatedParam = params['isAuthenticated'];
+      this.isAuthenticated = isAuthenticatedParam === 'true'; // Convert to boolean
       
-  //     console.log(this.isAuthenticated)
+      console.log(this.isAuthenticated)
 
-  //   });
-  // }
+    });
+  }
 
 
 
