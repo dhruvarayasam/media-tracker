@@ -11,7 +11,6 @@
 
 
 
-<h1>Hello world</h1>
 @if (!isAuthenticated) {
   <div>
   <h1>Home page</h1>
@@ -22,6 +21,7 @@
 
   <div>
     <h1>Ur locked in vro</h1>
+    <a [attr.href]="baseURL + '/profile'">Profile</a>
     <a [attr.href]="baseURL + '/logout'">Logout</a>
   </div>
 }
