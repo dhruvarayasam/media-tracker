@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { environment } from '../environments/environment';
+import { ActivatedRoute } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -7,6 +10,24 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
-  title = 'client';
+export class AppComponent implements OnInit {
+  
+  baseURL = environment.BASE_URL;
+  isAuthenticated:boolean = false;
+
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit() {
+    // Capture the 'isAuthenticated' query parameter
+    this.route.queryParams.subscribe(params => {
+      const isAuthenticatedParam = params['isAuthenticated'];
+      this.isAuthenticated = isAuthenticatedParam === 'true'; // Convert to boolean
+      
+      console.log(this.isAuthenticated)
+
+    });
+  }
+
+
+
 }
