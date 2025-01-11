@@ -20,10 +20,7 @@ export class AppComponent implements OnInit {
     // Capture the 'isAuthenticated' query parameter
     this.route.queryParams.subscribe(params => {
       const isAuthenticatedParam = params['isAuthenticated'];
-      this.isAuthenticated = isAuthenticatedParam === 'true'; // Convert to boolean
-      
-      console.log(this.isAuthenticated)
-
+      this.isAuthenticated = isAuthenticatedParam === 'true';
     });
   }
 }
