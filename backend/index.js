@@ -33,19 +33,24 @@ app.use(auth(config));
 // BASE
 app.get('/', (req, res) => {
     // CHECKS FOR AUTH STATUS --> frontend will check response and serve page accordingly
+    
     const authStatus = req.oidc.isAuthenticated()
     res.redirect(process.env.REDIRECT_HOME_URL + `?isAuthenticated=${authStatus}`)
     // res.send(JSON.stringify({home:true}))
+    
+    // redirects to profile component on frontend
+    // profile component on frontend makes a request to /profile
+    // ONLY IF AUTHENTICATED does the request go through, otherwise it redirects user to login page
 
 });
-
-
 
 // authenticated URLS
 app.get('/profile', requiresAuth(), (req, res) => {
     // gather data from mongo
     res.send(JSON.stringify(req.oidc.user));
 });
+
+
 
 // Server start
 app.listen(port, () => {
