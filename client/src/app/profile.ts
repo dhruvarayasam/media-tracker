@@ -7,6 +7,7 @@ import { MessageService } from './services/message.service';
   template: `
     <ul>
       <li>{{ name }}</li>
+      <li>{{message}}</li>
     </ul>`,
   standalone: true
 })
