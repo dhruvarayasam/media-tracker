@@ -3,10 +3,18 @@ const express = require('express');
 const mongoose = require('mongoose')
 const cors = require('cors');
 
+const app = express();
+const { auth } = require('express-oauth2-jwt-bearer');
+
+// Authorization middleware. When used, the Access Token must
+// exist and be verified against the Auth0 JSON Web Key Set.
+const checkJwt = auth({
+  audience: process.env.AUDIENCE,
+  issuerBaseURL: process.env.ISSUER_BASE_URL,
+});
 
 const port = process.env.PORT || 3000;
 
-const app = express();
 app.use(cors({ credentials: true, origin: process.env.CORS_URL }));
 app.use(express.json());
 
@@ -16,41 +24,25 @@ mongoose.connect(process.env.CONNECTION_URI).then(() => {
     console.log(error)
 }) 
 
-const { auth } = require('express-openid-connect');
-const { requiresAuth } = require('express-openid-connect');
-
-const config = {
-  authRequired: false,
-  auth0Logout: true,
-  secret: process.env.SECRET_STR,
-  baseURL: process.env.BASE_AUTH_URL,
-  clientID: process.env.CLIENT_ID,
-  issuerBaseURL: process.env.ISSUER_BASE_URL
-};
-// auth router attaches /login, /logout, and /callback routes to the baseURL
-app.use(auth(config));
-
 // BASE
 app.get('/', (req, res) => {
-    // CHECKS FOR AUTH STATUS --> frontend will check response and serve page accordingly
-    
-    const authStatus = req.oidc.isAuthenticated()
-    res.redirect(process.env.REDIRECT_HOME_URL + `?isAuthenticated=${authStatus}`)
-    // res.send(JSON.stringify({home:true}))
-    
-    // redirects to profile component on frontend
-    // profile component on frontend makes a request to /profile
-    // ONLY IF AUTHENTICATED does the request go through, otherwise it redirects user to login page
+
+    res.send("HELLO WORLD")
 
 });
 
-// authenticated URLS
-app.get('/profile', requiresAuth(), (req, res) => {
-    // gather data from mongo
-    res.send(JSON.stringify(req.oidc.user));
-});
-
-
+app.get('/api/public', function(req, res) {
+    res.json({
+      message: 'Hello from a public endpoint! You don\'t need to be authenticated to see this.'
+    });
+  });
+  
+  // This route needs authentication
+  app.get('/api/private', checkJwt, function(req, res) {
+    res.json({
+      message: 'Hello from a private endpoint! You need to be authenticated to see this.'
+    });
+  });
 
 // Server start
 app.listen(port, () => {
