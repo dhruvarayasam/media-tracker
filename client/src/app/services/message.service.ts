@@ -33,7 +33,7 @@ export class MessageService {
 
   getProtectedResource = (): Observable<ApiResponseModel> => {
     const config: RequestConfigModel = {
-      url: `${env.api.serverUrl}/api/messages/protected`,
+      url: `${env.api.serverUrl}/api/protected`,
       method: 'GET',
       headers: {
         'content-type': 'application/json',
@@ -54,7 +54,7 @@ export class MessageService {
 
   getAdminResource = (): Observable<ApiResponseModel> => {
     const config: RequestConfigModel = {
-      url: `${env.api.serverUrl}/api/messages/admin`,
+      url: `${env.api.serverUrl}/api/admin`,
       method: 'GET',
       headers: {
         'content-type': 'application/json',
