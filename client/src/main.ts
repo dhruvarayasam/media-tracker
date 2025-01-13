@@ -1,14 +1,15 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app.component';
 import { provideAuth0 } from '@auth0/auth0-angular';
+import { environment } from './environments/environment';
 
 bootstrapApplication(AppComponent, {
   providers: [
     provideAuth0({
-      domain: 'dev-iczqza1xd5wktvh5.us.auth0.com',
-      clientId: 'imi9bWBgyt0oYIbgRLOr6YmfwHSA1fMs',
+      domain: environment.auth0.domain,
+      clientId: environment.auth0.clientId,
       authorizationParams: {
-        redirect_uri: window.location.origin
+        redirect_uri: environment.auth0.redirectUri
       }
     }),
   ]
