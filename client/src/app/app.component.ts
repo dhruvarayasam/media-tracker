@@ -5,6 +5,7 @@ import { LoginButtonComponent } from "./login";
 import { LogoutButtonComponent } from "./logout";
 import { UserProfileComponent } from "./profile";
 import { CommonModule } from '@angular/common';
+import {MessageService} from './services/message.service'
 
 @Component({
   selector: 'app-root',
