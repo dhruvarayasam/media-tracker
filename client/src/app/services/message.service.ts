@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { mergeMap, Observable, of } from 'rxjs';
+import { mergeMap, Observable, of, from, map } from 'rxjs';
 import { environment as env } from '../../environments/environment';
 import { ApiResponseModel, MessageModel, RequestConfigModel } from '../models';
 import { ExternalApiService } from './external-api.service';
@@ -32,34 +32,37 @@ export class MessageService {
       })
     );
   };
-
   getProtectedResource = (): Observable<ApiResponseModel> => {
-
-    this.auth.getAccessTokenSilently().subscribe((token) => {
-      this.bearer_token = token
-      console.log(token)
-    })
-
-    const config: RequestConfigModel = {
-      url: `${env.api.serverUrl}/api/private`,
-      method: 'GET',
-      headers: {
-        'content-type': 'application/json',
-        'Authorization': `Bearer ${this.bearer_token}`
-      },
-    };
-
-    return this.externalApiService.callExternalApi(config).pipe(
-      mergeMap((response) => {
+    // Use from() to convert the promise to an observable
+    return from(this.auth.getAccessTokenSilently()).pipe(
+      // Set the bearer token and then proceed
+      mergeMap((token) => {
+        this.bearer_token = token;
+  
+        const config: RequestConfigModel = {
+          url: `${env.api.serverUrl}/api/private`,
+          method: 'GET',
+          headers: {
+            'content-type': 'application/json',
+            'Authorization': `Bearer ${this.bearer_token}`,
+          },
+        };
+        console.log(this.bearer_token)
+        // Call the external API
+        return this.externalApiService.callExternalApi(config);
+      }),
+      // Process the response
+      map((response) => {
         const { data, error } = response;
-
-        return of({
+  
+        return {
           data: data ? (data as MessageModel) : null,
           error,
-        });
+        };
       })
     );
   };
+  
 
   getAdminResource = (): Observable<ApiResponseModel> => {
     const config: RequestConfigModel = {
