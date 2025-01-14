@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose')
 const cors = require('cors');
+const User = require("./models/User")
 
 const app = express();
 const { auth } = require('express-oauth2-jwt-bearer');
@@ -50,9 +51,38 @@ app.get('/api/private', checkJwt, function(req, res) {
   });
 
 
-app.post('/createUser', checkJwt, function (req, res) {
-  console.log('CREATE USER HERE')
+app.post('/user_info', checkJwt, async (req, res) => {
+  // this endpoint is triggered after a login
+  // checks if user is in Mongo; if not, add them to the database
+  // if user is in Mongo, send back all available user info in JSON
+
+  const {name, email} = req.body
+
+  if (!name || !email) {
+    return res.status(400).json({message: "name and/or email are not valid"})
+  }
+
+  try {
+
+    let user = await User.findOne({email})
+
+    if (!user) {
+      await User.create({name, email, watched_movies: {}, wishlist: []})
+
+      return res.status(200).json({message: 'NEW_USER_CREATED_NO_DATA', user_info:null})
+
+    }
+
+    return res.status(200).json({message: "USER_EXISTS", user_info:user})
+
+  } catch (error) {
+
+    res.status(400).json({message:  `Server Error: ${error}`})
+
+  }
 })
+
+
 
 // Server start
 app.listen(port, () => {
