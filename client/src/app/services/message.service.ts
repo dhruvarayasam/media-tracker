@@ -14,7 +14,7 @@ export class MessageService {
 
   getPublicResource = (): Observable<ApiResponseModel> => {
     const config: RequestConfigModel = {
-      url: `${env.api.serverUrl}/api/messages/public`,
+      url: `${env.api.serverUrl}/api/public`,
       method: 'GET',
       headers: {
         'content-type': 'application/json',
@@ -37,10 +37,11 @@ export class MessageService {
 
     this.auth.getAccessTokenSilently().subscribe((token) => {
       this.bearer_token = token
+      console.log(token)
     })
 
     const config: RequestConfigModel = {
-      url: `${env.api.serverUrl}/api/protected`,
+      url: `${env.api.serverUrl}/api/private`,
       method: 'GET',
       headers: {
         'content-type': 'application/json',
