@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
 
-const MovieDetailsSchema = new Schema({
+const MovieDetailsSchema = new mongoose.Schema({
     rating: { type: Number, required: true, min: 0, max: 10 }, // Rating between 0 and 10
     notes: { type: String, default: "" } // Optional notes
   });
   
   // Main User schema
-  const userSchema = new Schema({
+  const userSchema = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     watched_movies: {
