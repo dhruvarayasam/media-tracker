@@ -37,8 +37,10 @@ app.get('/api/public', function(req, res) {
     });
   });
   
-  // This route needs authentication
-  app.get('/api/private', checkJwt, function(req, res) {
+
+
+// authenticated endpoints
+app.get('/api/private', checkJwt, function(req, res) {
     
     res.json({
       message: 'Hello from a private endpoint! You need to be authenticated to see this.'
@@ -46,6 +48,11 @@ app.get('/api/public', function(req, res) {
 
     console.log('Success')
   });
+
+
+app.post('/createUser', checkJwt, function (req, res) {
+  console.log('CREATE USER HERE')
+})
 
 // Server start
 app.listen(port, () => {
