@@ -39,7 +39,7 @@ export class UserProfileComponent {
 
       this.http.get(`${environment.api.serverUrl}/api/private`, { headers }).subscribe((res:any) => {
         console.log(res)
-        this.message = res.data
+        this.message = res.message
       })
     })
   
