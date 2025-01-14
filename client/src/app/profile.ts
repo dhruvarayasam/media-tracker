@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { MessageService } from './services/message.service';
+import { environment } from '../environments/environment';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-user-profile',
@@ -13,7 +15,7 @@ import { MessageService } from './services/message.service';
 })
 export class UserProfileComponent {
 
-  constructor(private auth: AuthService, public messageService:MessageService) {}
+  constructor(private auth: AuthService, public messageService:MessageService, private http:HttpClient) {}
   name:any = ""
   message = ''
 
@@ -28,18 +30,18 @@ export class UserProfileComponent {
       },
     });
 
+    this.auth.getAccessTokenSilently().subscribe((token) => {
 
-    this.messageService.getProtectedResource().subscribe((response) => {
-      const { data, error } = response;
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      });
 
-      if (data) {
-        this.message = JSON.stringify(data, null, 2);
-      }
-
-      if (error) {
-        this.message = JSON.stringify(error, null, 2);
-      }
-    });
+      this.http.get(`${environment.api.serverUrl}/api/private`, { headers }).subscribe((res:any) => {
+        console.log(res)
+        this.message = res.data
+      })
+    })
   
   }
 

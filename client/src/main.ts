@@ -11,7 +11,8 @@ bootstrapApplication(AppComponent, {
       domain: environment.auth0.domain,
       clientId: environment.auth0.clientId,
       authorizationParams: {
-        redirect_uri: environment.auth0.redirectUri
+        redirect_uri: environment.auth0.redirectUri,
+        audience: environment.auth0.audience
       }
     }),provideHttpClient()
   ]

@@ -8,6 +8,7 @@ export const environment = {
       domain: 'dev-iczqza1xd5wktvh5.us.auth0.com',
       clientId: 'imi9bWBgyt0oYIbgRLOr6YmfwHSA1fMs',
       redirectUri: 'https://media-tracker-frontend.vercel.app',
+      audience: 'https://dev-iczqza1xd5wktvh5.us.auth0.com/api/v2/'
     }
   };
   

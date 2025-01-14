@@ -14,6 +14,7 @@ export const appConfig: ApplicationConfig = {
       clientId: environment.auth0.clientId,
       authorizationParams: {
         redirect_uri: environment.auth0.redirectUri,
+        audience:environment.auth0.audience
       },
     })
   ),
