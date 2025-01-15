@@ -10,15 +10,12 @@
 
 
 
-
+<app-navbar></app-navbar>
 <div>
-  <h1>Auth0 Authentication with Angular</h1>
   @if (!(auth.isAuthenticated$ | async)) {
-    <app-login-button></app-login-button>
+    <h3>Hello vro</h3>
   } @else {
     <h2>Ur locked in vro</h2>
-    <app-user-profile></app-user-profile>
-    <app-logout-button></app-logout-button>
     
   }
 </div>
