@@ -4,6 +4,9 @@ import { AuthModule } from '@auth0/auth0-angular';
 import { provideHttpClient } from '@angular/common/http';
 import { importProvidersFrom } from '@angular/core';
 import { environment } from '../environments/environment';
+import { authInterceptor } from './auth.interceptor';
+import { withInterceptors, HTTP_INTERCEPTORS } from '@angular/common/http';
+
 
 import { routes } from './app.routes';
 
@@ -18,5 +21,5 @@ export const appConfig: ApplicationConfig = {
       },
     })
   ),
-  provideHttpClient(), provideRouter(routes)]
+ provideHttpClient(withInterceptors([authInterceptor])), provideRouter(routes)]
 };
