@@ -57,32 +57,106 @@ app.post('/user_info', checkJwt, async (req, res) => {
   // if user is in Mongo, send back all available user info in JSON
 
   const {name, email} = req.body
-
   if (!name || !email) {
     return res.status(400).json({message: "name and/or email are not valid"})
   }
-
   try {
-
     let user = await User.findOne({email})
 
     if (!user) {
       await User.create({name, email, watched_movies: {}, wishlist: []})
-
-      return res.status(200).json({message: 'NEW_USER_CREATED_NO_DATA', user_info:null})
-
+      return res.status(200).json({message: 'NEW_USER_CREATED_NO_DATA', user_info:{name, email, watched_movies: {}, wishlist: []}})
     }
-
     return res.status(200).json({message: "USER_EXISTS", user_info:user})
-
   } catch (error) {
-
     res.status(400).json({message:  `Server Error: ${error}`})
-
   }
 })
 
+app.post('/add_wishlist_movie', checkJwt, async (req, res) => {
+  // add a movie to a user's wishlist
+  const {email, movie} = req.body
 
+  if (email) {
+    user = await User.findOne({email})
+
+    if (!user.wishlist.includes(movie)) {
+      user.wishlist.push(movie)
+      await user.save()
+      return res.status(200).json({message: "movie added to wishlist successfully"})
+    }
+
+    return res.status(400).json({message: 'movie already exists'})
+
+  }
+
+  return res.status(400).json({message: 'email identifier null'})
+
+})
+
+app.post('/remove_wishlist_movie', checkJwt, async (req, res) => {
+  // add a movie to a user's wishlist
+  const {email, movie} = req.body
+
+  if (email) {
+    user = await User.findOne({email})
+
+    if (!user.wishlist.includes(movie)) {
+      user.wishlist.filter((item) => item != movie)
+      await user.save()
+      return res.status(200).json({message: "movie removed from wishlist successfully"})
+    }
+
+    return res.status(400).json({message: 'movie already exists'})
+
+  }
+
+  return res.status(400).json({message: 'email identifier null'})
+
+})
+
+app.post('/update_notes', checkJwt, async (req, res) => {
+  const {email, notes} = req.body
+
+  if (email && notes) {
+
+    const result = await User.findOneAndUpdate(
+      { email: email }, // Filter by email
+      { $set: { [`watched_movies.${movieTitle}.notes`]: notes } }, // Update notes for the specific movie
+      { new: true } // Return the updated document
+    )
+
+    if (result) {
+      return res.status(200).json({message:'success'})
+    }
+    return res.status(400).json({message:'notes update failed'})
+
+  }
+
+  return res.status(400).json({message: 'email identifier null'})
+
+})
+
+app.post('/update_rating', checkJwt, async (req, res) => {
+  const {email, rating} = req.body
+
+  try {
+    const result = await User.findOneAndUpdate(
+      { email: email }, // Filter to find the user by email
+      { $set: { [`watched_movies.${movieTitle}.rating`]: rating } }, // Update the rating for the specific movie
+      { new: true, runValidators: true } // Return the updated document and run schema validation
+    );
+
+    if (result) {
+      res.status(200).json({message: 'success'})
+    } 
+    res.status(400).json({message: 'update rating'})
+
+
+  } catch (error) {
+    res.status(400).json({message: error})
+  }
+})
 
 // Server start
 app.listen(port, () => {

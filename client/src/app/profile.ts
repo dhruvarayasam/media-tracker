@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
-import { environment } from '../environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { APIService } from './services/api-service.service';
 
 @Component({
@@ -43,21 +41,6 @@ export class UserProfileComponent {
         console.error('Error getting user data:', err);
       },
     });
-
-    // this.auth.getAccessTokenSilently().subscribe((token) => {
-
-    //   authenticated API request example
-
-    //   const headers = new HttpHeaders({
-    //     'Content-Type': 'application/json',
-    //     'Authorization': `Bearer ${token}`,
-    //   });
-
-    //   this.http.get(`${environment.api.serverUrl}/api/private`, { headers }).subscribe((res:any) => {
-    //     console.log(res)
-    //     this.message = res.message
-    //   })
-    // })
 
 
   
