@@ -73,38 +73,24 @@ app.post('/user_info', checkJwt, async (req, res) => {
   }
 })
 
-app.post('/add_wishlist_movie', checkJwt, async (req, res) => {
+app.post('/update_wishlist_movie', checkJwt, async (req, res) => {
   // add a movie to a user's wishlist
-  const {email, movie} = req.body
+  const {email, movie, add_movie} = req.body
 
   if (email) {
     user = await User.findOne({email})
 
     if (!user.wishlist.includes(movie)) {
-      user.wishlist.push(movie)
-      await user.save()
-      return res.status(200).json({message: "movie added to wishlist successfully"})
-    }
 
-    return res.status(400).json({message: 'movie already exists'})
-
-  }
-
-  return res.status(400).json({message: 'email identifier null'})
-
-})
-
-app.post('/remove_wishlist_movie', checkJwt, async (req, res) => {
-  // add a movie to a user's wishlist
-  const {email, movie} = req.body
-
-  if (email) {
-    user = await User.findOne({email})
-
-    if (!user.wishlist.includes(movie)) {
-      user.wishlist.filter((item) => item != movie)
-      await user.save()
-      return res.status(200).json({message: "movie removed from wishlist successfully"})
+      if (add_movie) {
+        user.wishlist.push(movie)
+        await user.save()
+        return res.status(200).json({message: "movie added to wishlist successfully"})
+      } else {
+        user.wishlist = user.wishlist.filter((item) => movie != item)
+        await user.save()
+        return res.status(200).json({message: "movie added to wishlist successfully"})
+      }
     }
 
     return res.status(400).json({message: 'movie already exists'})

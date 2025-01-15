@@ -19,4 +19,6 @@ export class APIService {
     return this.http.post( `${this.base_api_url}/user_info`, {name: name, email: email}, {headers})
 
   }
+
+  
 }
