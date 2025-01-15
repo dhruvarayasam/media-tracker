@@ -5,7 +5,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { importProvidersFrom } from '@angular/core';
 import { environment } from '../environments/environment';
 import { authInterceptor } from './auth.interceptor';
-import { withInterceptors, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { withInterceptors } from '@angular/common/http';
 
 
 import { routes } from './app.routes';

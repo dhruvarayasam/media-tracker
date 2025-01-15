@@ -1,7 +1,4 @@
 import { HttpInterceptorFn } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { AuthService } from '@auth0/auth0-angular'; // Replace with your authentication service
 import { switchMap } from 'rxjs/operators';
 import {inject} from '@angular/core'
