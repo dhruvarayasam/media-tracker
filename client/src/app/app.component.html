@@ -11,14 +11,6 @@
 
 
 <app-navbar></app-navbar>
-<div>
-  @if (!(auth.isAuthenticated$ | async)) {
-    <h3>Hello vro</h3>
-  } @else {
-    <h2>Ur locked in vro</h2>
-    
-  }
-</div>
 
 
-<router-outlet />
+<router-outlet/>

@@ -5,10 +5,10 @@
       <ul class="nav-links">
         @if ((auth.isAuthenticated$ | async)) {        
         <li>
-          <a routerLink="/profile">Profile</a>
+          <a routerLink="/profile" routerLinkActive="active">Profile</a>
         </li>
         <li>
-          <a routerLink="/collections">Collections</a>
+          <a routerLink="/collections" routerLinkActive="active">Collections</a>
         </li>
         <li><app-logout-button></app-logout-button></li>
         } @else {

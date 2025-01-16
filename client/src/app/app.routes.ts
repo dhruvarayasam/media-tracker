@@ -1,5 +1,8 @@
 import { Routes } from '@angular/router';
-import { HttpClient } from '@angular/common/http'; // Import this
+import { ProfileComponent } from './profile/profile.component';
+import { CollectionsComponent } from './collections/collections.component';
 
-
-export const routes: Routes = [];
+export const appRoutes: Routes = [
+  { path: 'profile', component: ProfileComponent },
+  { path: 'collections', component: CollectionsComponent },
+];

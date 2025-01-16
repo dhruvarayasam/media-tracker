@@ -8,10 +8,10 @@ import { authInterceptor } from './auth.interceptor';
 import { withInterceptors } from '@angular/common/http';
 
 
-import { routes } from './app.routes';
+import { appRoutes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes),  importProvidersFrom(
+  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(appRoutes),  importProvidersFrom(
     AuthModule.forRoot({
       domain: environment.auth0.domain,
       clientId: environment.auth0.clientId,
@@ -21,5 +21,5 @@ export const appConfig: ApplicationConfig = {
       },
     })
   ),
- provideHttpClient(withInterceptors([authInterceptor])), provideRouter(routes)]
+ provideHttpClient(withInterceptors([authInterceptor]))]
 };

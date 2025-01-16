@@ -1,17 +1,16 @@
 import { Component } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
-import { APIService } from './services/api-service.service';
+import { APIService } from '../services/api-service.service';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: 'app-user-profile',
-  template: `
-    <ul>
-      <li>{{ user_info.name }}</li>
-      <li>{{user_info.email}}</li>
-    </ul>`,
-  standalone: true
+  selector: 'app-profile',
+  imports: [RouterOutlet],
+  templateUrl: './profile.component.html',
+  styleUrl: './profile.component.css'
 })
-export class UserProfileComponent {
+export class ProfileComponent {
+
 
   constructor(private auth: AuthService, private api:APIService) {}
   name:any = ""
