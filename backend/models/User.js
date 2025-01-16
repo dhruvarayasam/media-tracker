@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
 
 const MovieDetailsSchema = new mongoose.Schema({
-    rating: { type: Number, required: true, min: 0, max: 10 }, // Rating between 0 and 10
-    notes: { type: String, default: "" } // Optional notes
+    rating: { type: Number, required: true, min: 0, max: 5 }, // Rating between 0 and 10
+    notes: { type: String, default: "" },
+    imdb_id: {type: String, default: ""}
   });
   
   // Main User schema

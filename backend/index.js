@@ -85,11 +85,11 @@ app.post('/update_wishlist_movie', checkJwt, async (req, res) => {
       if (add_movie) {
         user.wishlist.push(movie)
         await user.save()
-        return res.status(200).json({message: "movie added to wishlist successfully"})
+        return res.status(200).json({message: "movie added to wishlist successfully", user_info:user})
       } else {
         user.wishlist = user.wishlist.filter((item) => movie != item)
         await user.save()
-        return res.status(200).json({message: "movie added to wishlist successfully"})
+        return res.status(200).json({message: "movie removed from wishlist successfully", user_info:user})
       }
     }
 
@@ -101,7 +101,7 @@ app.post('/update_wishlist_movie', checkJwt, async (req, res) => {
 
 })
 
-app.post('/update_notes', checkJwt, async (req, res) => {
+app.post('/update_notes_movie', checkJwt, async (req, res) => {
   const {email, notes} = req.body
 
   if (email && notes) {
@@ -113,7 +113,7 @@ app.post('/update_notes', checkJwt, async (req, res) => {
     )
 
     if (result) {
-      return res.status(200).json({message:'success'})
+      return res.status(200).json({message:'success', user_info:user})
     }
     return res.status(400).json({message:'notes update failed'})
 
@@ -123,7 +123,7 @@ app.post('/update_notes', checkJwt, async (req, res) => {
 
 })
 
-app.post('/update_rating', checkJwt, async (req, res) => {
+app.post('/update_rating_movie', checkJwt, async (req, res) => {
   const {email, rating} = req.body
 
   try {
@@ -134,7 +134,7 @@ app.post('/update_rating', checkJwt, async (req, res) => {
     );
 
     if (result) {
-      res.status(200).json({message: 'success'})
+      res.status(200).json({message: 'success', user_info:user})
     } 
     res.status(400).json({message: 'update rating'})
 

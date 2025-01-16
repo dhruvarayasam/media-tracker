@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { APIService } from '../services/api-service.service';
 
 @Component({
   selector: 'app-movies',
@@ -8,6 +9,10 @@ import { Component } from '@angular/core';
 })
 export class MoviesComponent {
 
-  
+  // TODO:
+  // add/remove to wishlist functionality
+  // add/remove to watchlist functionality --> ratings and notes included here
+
+
 
 }
