@@ -1,20 +1,20 @@
 
 <nav class="navbar">
-    <div class="container">
-      <a class="brand" href="/">Media Tracker</a>
-      <ul class="nav-links">
-        @if ((auth.isAuthenticated$ | async)) {        
-        <li>
-          <a routerLink="/profile" routerLinkActive="active">Profile</a>
-        </li>
-        <li>
-          <a routerLink="/collections" routerLinkActive="active">Collections</a>
-        </li>
-        <li><app-logout-button></app-logout-button></li>
-        } @else {
-            <app-login-button></app-login-button>
-        }
-      </ul>
-    </div>
-  </nav>
+  <div class="container">
+    <a class="brand" href="/">Media Tracker</a>
+    <ul class="nav-links">
+      @if ((auth.isAuthenticated$ | async)) {        
+      <li>
+        <a routerLink="/profile" routerLinkActive="active">Profile</a>
+      </li>
+      <li>
+        <a routerLink="/collections" routerLinkActive="active">Collections</a>
+      </li>
+      <li><app-logout-button></app-logout-button></li>
+      } @else {
+          <app-login-button></app-login-button>
+      }
+    </ul>
+  </div>
+</nav>
   

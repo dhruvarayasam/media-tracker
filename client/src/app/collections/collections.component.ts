@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-collections',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './collections.component.html',
   styleUrl: './collections.component.css'
 })
