@@ -23,7 +23,6 @@ export class APIService {
   modifyWishlist(movie_name:string, email:string, addStatus:boolean): Observable<any> {
 
     const headers = this.authHeaders
-
     return this.http.post( `${this.base_api_url}/update_wishlist_movie`, {email: email, movie:movie_name, addMovie:addStatus}, {headers})
 
   }
@@ -31,7 +30,6 @@ export class APIService {
   modifyRating(new_rating:number, email:string): Observable<any> {
 
     const headers = this.authHeaders
-
     return this.http.post( `${this.base_api_url}/update_rating_movie`, {email: email, rating:new_rating}, {headers})
   }
 

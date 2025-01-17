@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { APIService } from '../services/api-service.service';
+import { WishlistService } from '../services/wishlist.service';
+import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-movies',
@@ -18,18 +19,32 @@ export class MoviesComponent implements OnInit{
   // any updates on array trigger APIService update endpoint
   // display local array
 
+  constructor(private wishlistService: WishlistService, private auth:AuthService) {}
+  wishlist: string[] = [];
+
   ngOnInit() {
 
+    this.auth.user$.subscribe({
+      next : (user:any) => {
+        this.wishlistService.loadWishlist(user.email); // this sets the observable
+      }
+    })
+
+    // Subscribe to wishlist changes
+    this.wishlistService.wishlist$.subscribe(wishlist => {
+      this.wishlist = wishlist;
+    });
+
 
 
   }
 
-  addToWishlist() {
-
-  }
-
-  removeFromWishlist() {
-
+  toggleWishlist(movieName: string, addStatus: boolean): void {
+    this.auth.user$.subscribe({
+      next : (user:any) => {
+        this.wishlistService.modifyWishlist(movieName,  user.email, addStatus);
+      }
+    })
   }
 
   addToWatchedList() {
@@ -45,7 +60,7 @@ export class MoviesComponent implements OnInit{
   }
 
   modifyNotes() {
-    
+
   }
 
 

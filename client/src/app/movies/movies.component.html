@@ -1,2 +1,13 @@
-<h2>Breakdown of movies</h2>
-
+<div>
+    <h3>Wishlist</h3>
+    <ul>
+      @for (movie of wishlist; track movie)
+      {
+        <li>
+          {{ movie }}
+          <button (click)="toggleWishlist(movie, false)">Remove</button>
+        </li>
+      }
+    </ul>
+  </div>
+  

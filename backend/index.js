@@ -80,20 +80,16 @@ app.post('/update_wishlist_movie', checkJwt, async (req, res) => {
   if (email) {
     user = await User.findOne({email})
 
-    if (!user.wishlist.includes(movie)) {
-
-      if (add_movie) {
-        user.wishlist.push(movie)
-        await user.save()
-        return res.status(200).json({message: "movie added to wishlist successfully", user_info:user})
-      } else {
-        user.wishlist = user.wishlist.filter((item) => movie != item)
-        await user.save()
-        return res.status(200).json({message: "movie removed from wishlist successfully", user_info:user})
-      }
+    if (add_movie) {
+      user.wishlist.push(movie)
+      await user.save()
+      return res.status(200).json({message: "movie added to wishlist successfully", user_info:user})
+    } else {
+      user.wishlist = user.wishlist.filter((item) => movie != item)
+      await user.save()
+      return res.status(200).json({message: "movie removed from wishlist successfully", user_info:user})
     }
 
-    return res.status(400).json({message: 'movie already exists'})
 
   }
 
@@ -148,7 +144,7 @@ app.post('/get_wishlist', checkJwt, async (req, res) => {
 
   const {email} = req.body
 
-  const user = await User.findOne(email)
+  const user = await User.findOne({email})
 
   if (!user) {
     return res.status(400).json({message: 'error with finding user'})
@@ -162,7 +158,7 @@ app.post('/get_watchedlist', checkJwt, async (req, res) => {
 
   const {email} = req.body
 
-  const user = await User.findOne(email)
+  const user = await User.findOne({email})
 
   if (!user) {
     return res.status(400).json({message: 'error with finding user'})
