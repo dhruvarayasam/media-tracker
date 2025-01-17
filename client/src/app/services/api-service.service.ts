@@ -42,5 +42,19 @@ export class APIService {
 
   }
 
+  getWishlist(email:string): Observable<any> {
+
+    const headers = this.authHeaders
+    return this.http.post( `${this.base_api_url}/get_wishlist`, {email: email}, {headers})
+
+  }
+
+  getWatchedList(email:string): Observable<any> {
+
+    const headers = this.authHeaders
+    return this.http.post( `${this.base_api_url}/get_watchedlist`, {email: email}, {headers})
+
+  }
+
   
 }

@@ -144,6 +144,34 @@ app.post('/update_rating_movie', checkJwt, async (req, res) => {
   }
 })
 
+app.post('/get_wishlist', checkJwt, async (req, res) => {
+
+  const {email} = req.body
+
+  const user = await User.findOne(email)
+
+  if (!user) {
+    return res.status(400).json({message: 'error with finding user'})
+  }
+
+  return res.status(200).json({message: 'success', wishlist:user.wishlist})
+
+})
+
+app.post('/get_watchedlist', checkJwt, async (req, res) => {
+
+  const {email} = req.body
+
+  const user = await User.findOne(email)
+
+  if (!user) {
+    return res.status(400).json({message: 'error with finding user'})
+  }
+
+  return res.status(200).json({message: 'success', wishlist:user.watched_movies})
+
+})
+
 // Server start
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
