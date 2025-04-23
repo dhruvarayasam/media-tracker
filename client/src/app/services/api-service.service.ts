@@ -7,8 +7,8 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class APIService {
-  authHeaders = { 'X-Use-Auth': 'true' }
-  unAuthHeaders = {'X-Use-Auth': 'false'}
+  authHeaders = { 'X-Use-Auth': 'true', 'Access-Control-Allow-Origin': '*' }
+  unAuthHeaders = {'X-Use-Auth': 'false', 'Access-Control-Allow-Origin': '*'}
   base_api_url = environment.api.serverUrl
 
   constructor(private http: HttpClient) { }
