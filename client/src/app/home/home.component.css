@@ -1,0 +1,23 @@
+.home-container {
+    max-width: 800px;
+    margin: 4rem auto;
+    padding: 0 1rem;
+    text-align: center;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    color: #1e1e2f;
+  }
+  
+  .headline {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #00c2ff;
+  }
+  
+  .description {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    color: #333;
+  }
+  
