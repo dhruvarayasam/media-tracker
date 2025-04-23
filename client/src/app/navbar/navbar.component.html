@@ -10,9 +10,9 @@
       <li>
         <a routerLink="/collections" routerLinkActive="active">Collections</a>
       </li>
-      <li><app-logout></app-logout></li>
+      <li class="auth-wrapper"><app-logout></app-logout></li>
       } @else {
-          <app-login></app-login>
+          <li class="auth-wrapper"><app-login></app-login></li>
       }
     </ul>
   </div>

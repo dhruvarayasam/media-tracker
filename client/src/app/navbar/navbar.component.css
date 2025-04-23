@@ -46,6 +46,7 @@
   list-style: none;
   margin: 0;
   padding: 0;
+  align-items: center;
 }
 
 .nav-links a {
@@ -62,6 +63,10 @@
   border-bottom: 2px solid #00c2ff;
 }
 
+.auth-wrapper {
+  
+  margin-left: auto;
+}
 /* Responsive layout */
 @media (max-width: 768px) {
   .container {

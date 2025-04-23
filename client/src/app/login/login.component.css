@@ -1,0 +1,21 @@
+button {
+    background: transparent;
+    border: 1px solid white;
+    padding: 6px 12px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    box-shadow: none; /* remove any default shadows */
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+}
+
+button:hover {
+    background-color: #00c2ff;
+    color: white;
+    border-color: #00c2ff;
+  }
+  
