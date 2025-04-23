@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
-import { LoginButtonComponent } from '../login';
-import { LogoutButtonComponent } from '../logout';
+import { LoginButtonComponent } from '../login/login.component';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { LogoutButtonComponent } from "../logout/logout.component";
 
 
 @Component({

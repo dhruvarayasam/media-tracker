@@ -3,13 +3,10 @@ import { AuthService } from '@auth0/auth0-angular';
 import { DOCUMENT } from '@angular/common';
 
 @Component({
-  selector: 'app-logout-button',
-  template: `
-    <button (click)="logout()">
-      Log out
-    </button>
-  `,
-  standalone: true
+  selector: 'app-logout',
+  imports: [],
+  templateUrl: './logout.component.html',
+  styleUrl: './logout.component.css'
 })
 export class LogoutButtonComponent {
   constructor(

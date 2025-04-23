@@ -1,6 +1,12 @@
 
 
-<h2>Welcome, {{user_info.name}}.</h2>
+<div class="welcome">
+@if (user_info.name) {
+    <h2>Welcome, {{user_info.name}}.</h2>
+    } @else {
+    <h2>Loading</h2>
 
 
+    }
+</div>
 <router-outlet></router-outlet>

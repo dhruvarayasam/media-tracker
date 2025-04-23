@@ -3,9 +3,13 @@ const express = require('express');
 const mongoose = require('mongoose')
 const cors = require('cors');
 const User = require("./models/User")
+const axios = require("axios")
 
 const app = express();
 const { auth } = require('express-oauth2-jwt-bearer');
+
+const spotify_client_id = process.env.SPOTIFY_CLIENT_ID
+const spotify_secret_id = process.env.SPOTIFY_SECRET_ID
 
 // Authorization middleware. When used, the Access Token must
 // exist and be verified against the Auth0 JSON Web Key Set.
@@ -40,6 +44,9 @@ app.get('/api/public', function(req, res) {
   
 
 
+
+
+
 // authenticated endpoints
 app.get('/api/private', checkJwt, function(req, res) {
     
@@ -72,6 +79,79 @@ app.post('/user_info', checkJwt, async (req, res) => {
     res.status(400).json({message:  `Server Error: ${error}`})
   }
 })
+
+// spotify/music endpoints
+
+app.get('/spotify/login', (req, res) => {
+  const scope = 'user-read-private user-read-email';
+  const authUrl = 'https://accounts.spotify.com/authorize?' +
+    querystring.stringify({
+      response_type: 'code',
+      client_id: spotify_client_id,
+      scope: scope,
+      redirect_uri: process.env.SPOTIFY_REDIRECT_URI,
+    });
+  res.redirect(authUrl);
+});
+
+app.get('/spotify/callback', async (req, res) => {
+  const code = req.query.code || null;
+  const tokenUrl = 'https://accounts.spotify.com/api/token';
+  const authOptions = {
+    method: 'post',
+    url: tokenUrl,
+    data: querystring.stringify({
+      code: code,
+      redirect_uri: process.env.SPOTIFY_REDIRECT_URI,
+      grant_type: 'authorization_code',
+    }),
+    headers: {
+      'Authorization': 'Basic ' + Buffer.from(spotify_client_id + ':' + spotify_secret_id).toString('base64'),
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+  };
+
+  try {
+    const response = await axios(authOptions);
+    const access_token = response.data.access_token;
+    const refresh_token = response.data.refresh_token;
+
+    // Redirect to your Angular app with the tokens
+    res.redirect(`http://localhost:4200/?access_token=${access_token}&refresh_token=${refresh_token}`);
+  } catch (error) {
+    res.send('Error during authentication');
+  }
+});
+
+
+app.get("/spotify/refresh_token", async (req, res) => {
+  const refresh_token = req.query.refresh_token;
+  const tokenUrl = 'https://accounts.spotify.com/api/token';
+
+  const authOptions = {
+    method: 'post',
+    url: tokenUrl,
+    data: querystring.stringify({
+      grant_type: 'refresh_token',
+      refresh_token: refresh_token,
+    }),
+    headers: {
+      'Authorization': 'Basic ' + Buffer.from(client_id + ':' + client_secret).toString('base64'),
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+  };
+
+  try {
+    const response = await axios(authOptions);
+    const access_token = response.data.access_token;
+    res.json({ access_token: access_token });
+  } catch (error) {
+    res.send('Error refreshing token');
+  }
+})
+
+
+// movie endpoints
 
 app.post('/update_wishlist_movie', checkJwt, async (req, res) => {
   // add a movie to a user's wishlist
@@ -143,13 +223,10 @@ app.post('/update_rating_movie', checkJwt, async (req, res) => {
 app.post('/get_wishlist', checkJwt, async (req, res) => {
 
   const {email} = req.body
-
   const user = await User.findOne({email})
-
   if (!user) {
     return res.status(400).json({message: 'error with finding user'})
   }
-
   return res.status(200).json({message: 'success', wishlist:user.wishlist})
 
 })
@@ -157,15 +234,11 @@ app.post('/get_wishlist', checkJwt, async (req, res) => {
 app.post('/get_watchedlist', checkJwt, async (req, res) => {
 
   const {email} = req.body
-
   const user = await User.findOne({email})
-
   if (!user) {
     return res.status(400).json({message: 'error with finding user'})
   }
-
   return res.status(200).json({message: 'success', wishlist:user.watched_movies})
-
 })
 
 // Server start
