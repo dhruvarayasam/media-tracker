@@ -23,12 +23,12 @@ export class ProfileComponent {
       next: (user) => {
         this.name = user?.name
         this.email = user?.email
-        this.api.checkUserInfoAuth(this.name, this.email).subscribe({
-          next: (res) => {
-            this.user_info = res.user_info
-            console.log(res)
-          }
-        })
+        // this.api.checkUserInfoAuth(this.name, this.email).subscribe({
+        //   next: (res) => {
+        //     this.user_info = res.user_info
+        //     console.log(res)
+        //   }
+        // })
 
 
 
