@@ -2,3 +2,10 @@
     
     padding: 16px;
 }
+
+.spotify-stats {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    padding: 16px;
+}

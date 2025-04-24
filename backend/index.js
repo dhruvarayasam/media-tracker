@@ -7,6 +7,8 @@ const axios = require("axios")
 
 const app = express();
 const { auth } = require('express-oauth2-jwt-bearer');
+const spotifyRoutes = require('./routes/spotify');
+
 
 const spotify_client_id = process.env.SPOTIFY_CLIENT_ID
 const spotify_secret_id = process.env.SPOTIFY_SECRET_ID
@@ -82,73 +84,9 @@ app.post('/user_info', checkJwt, async (req, res) => {
 
 // spotify/music endpoints
 
-app.get('/spotify/login', (req, res) => {
-  const scope = 'user-read-private user-read-email';
-  const authUrl = 'https://accounts.spotify.com/authorize?' +
-    querystring.stringify({
-      response_type: 'code',
-      client_id: spotify_client_id,
-      scope: scope,
-      redirect_uri: process.env.SPOTIFY_REDIRECT_URI,
-    });
-  res.redirect(authUrl);
-});
 
-app.get('/spotify/callback', async (req, res) => {
-  const code = req.query.code || null;
-  const tokenUrl = 'https://accounts.spotify.com/api/token';
-  const authOptions = {
-    method: 'post',
-    url: tokenUrl,
-    data: querystring.stringify({
-      code: code,
-      redirect_uri: process.env.SPOTIFY_REDIRECT_URI,
-      grant_type: 'authorization_code',
-    }),
-    headers: {
-      'Authorization': 'Basic ' + Buffer.from(spotify_client_id + ':' + spotify_secret_id).toString('base64'),
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-  };
+app.use('/spotify', spotifyRoutes)
 
-  try {
-    const response = await axios(authOptions);
-    const access_token = response.data.access_token;
-    const refresh_token = response.data.refresh_token;
-
-    // Redirect to your Angular app with the tokens
-    res.redirect(`http://localhost:4200/?access_token=${access_token}&refresh_token=${refresh_token}`);
-  } catch (error) {
-    res.send('Error during authentication');
-  }
-});
-
-
-app.get("/spotify/refresh_token", async (req, res) => {
-  const refresh_token = req.query.refresh_token;
-  const tokenUrl = 'https://accounts.spotify.com/api/token';
-
-  const authOptions = {
-    method: 'post',
-    url: tokenUrl,
-    data: querystring.stringify({
-      grant_type: 'refresh_token',
-      refresh_token: refresh_token,
-    }),
-    headers: {
-      'Authorization': 'Basic ' + Buffer.from(client_id + ':' + client_secret).toString('base64'),
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-  };
-
-  try {
-    const response = await axios(authOptions);
-    const access_token = response.data.access_token;
-    res.json({ access_token: access_token });
-  } catch (error) {
-    res.send('Error refreshing token');
-  }
-})
 
 
 // movie endpoints

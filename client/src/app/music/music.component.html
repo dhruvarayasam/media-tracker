@@ -1,1 +1,11 @@
-<p>music works!</p>
+<div class="spotify-section">
+    @if (isSpotifyAuthed) {
+      <h3>Spotify Stats</h3>
+    } @else {
+      <button class="spotify-button" (click)="loginSpotify()">
+        
+        Login with Spotify
+      </button>
+    }
+  </div>
+  
