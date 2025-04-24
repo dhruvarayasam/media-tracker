@@ -12,7 +12,7 @@ export const environment = {
     },
     spotify_details: {
       clientId: '4ac9faa941464ffba0c0d182057c994a',
-      redirectUri: 'http://localhost:4200/profile',
+      redirectUri: 'http://https://media-tracker-frontend.vercel.app/profile',
       tokenURL: 'https://accounts.spotify.com/api/token',
   }
   };
